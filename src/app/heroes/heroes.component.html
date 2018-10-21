@@ -1,0 +1,15 @@
+<h3>Main hero: {{hero.name}}</h3>
+<div>
+  <label>name:
+    <input [(ngModel)]="hero.name" placeholder="name">
+  </label>
+</div>
+
+<h3>Other heroes</h3>
+<ul class="heroes">
+  <li *ngFor="let otherHero of heroes">
+    <a routerLink="/detail/{{otherHero.id}}">
+      <span class="badge">{{otherHero.id}}</span> {{otherHero.name}}
+    </a>
+  </li>
+</ul>
