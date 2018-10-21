@@ -1,9 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import {TestBed} from '@angular/core/testing';
 
-import { HeroService } from './hero.service';
+import {HeroService} from './hero.service';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('HeroService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule]
+    }).compileComponents();
+  });
 
   it('should be created', () => {
     const service: HeroService = TestBed.get(HeroService);
