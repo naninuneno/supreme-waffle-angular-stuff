@@ -5,26 +5,27 @@ const client = new pg.Client(db_config);
 
 client.connect();
 
-// Testing
-client.query('SELECT * FROM public.users', (err, res) => {
-  if (err) {
-    console.log(err.stack);
-  } else {
-    console.log('rows: ' + res.rows.length);
-    for (let row of res.rows) {
-      console.log('row data: ' + JSON.stringify(row));
-    }
-  }
-  client.end();
-});
-
 const pool = new pg.Pool(db_config);
 pool.on('error', function(err) {
   console.log('Idle client error', err.message, err.stack);
 });
 
+function query(text, params, cb) {
+  return pool.query(text, params, cb);
+}
+
+function getUserById(id, cb) {
+  query('SELECT id, username, type FROM users WHERE id = $1', [parseInt(id, 10)], (err, results) => {
+    if(err) {
+      console.log('Error when querying user', err);
+      return cb(err);
+    }
+
+    cb(null, results.rows[0]);
+  });
+}
+
 module.exports = {
-  query: (text, params, callback) => {
-    return pool.query(text, params, callback);
-  }
+  query: query,
+  getUserById: getUserById
 };

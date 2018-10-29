@@ -5,7 +5,8 @@ const CONFIG = {
     database: 'angularapp',
     password: 'secretpassword',
     port: 5432,
-  }
+  },
+  secret: 'secret_stew_and_potion_pots'
 };
 
 module.exports = {

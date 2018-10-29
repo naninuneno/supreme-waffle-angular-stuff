@@ -32,12 +32,5 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, cb) => {
-  db.query('SELECT id, username, type FROM users WHERE id = $1', [parseInt(id, 10)], (err, results) => {
-    if(err) {
-      console.log('Error when selecting user on session deserialize', err);
-      return cb(err);
-    }
-
-    cb(null, results.rows[0]);
-  })
+  db.getUserById(id, cb);
 });

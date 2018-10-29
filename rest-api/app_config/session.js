@@ -1,8 +1,17 @@
 const session = require('express-session');
+const pgConnect = require('connect-pg-simple')(session);
+const pgPromise = require('pg-promise');
+const bluebird = require('bluebird');
+const app_config = require('../app_config/config').config;
+
+const pgStoreConfig = {
+  pgPromise: pgPromise({promiseLib: bluebird})(app_config.db)
+};
 
 const sessionConfig = session({
   maxAge: new Date(Date.now() + 3600000),
-  store: new MongoStore(db.config.db),
+  secret: app_config.secret,
+  store: new pgConnect(pgStoreConfig),
   saveUninitialized: true,
   resave: false,
   // for obfuscation purposes
@@ -14,34 +23,6 @@ const sessionConfig = session({
   }
 });
 
-function setupSession() {
-  // convenience method to associate user info with a user session
-  session.Session.prototype.login = function(user, cb) {
-    const req = this.req;
-    req.session.regenerate(function(err){
-      if (err){
-        cb(err);
-      }
-    });
-
-    req.session.userInfo = user;
-    cb();
-  };
-
-  session.Session.prototype.logout = function() {
-    this.req.session.userInfo = null;
-  };
-
-  session.Session.prototype.isLoggedIn = function() {
-    return !(this.req.session.userInfo == null);
-  };
-
-  session.Session.prototype.currentUser = function() {
-    return this.req.session.userInfo.email;
-  };
-}
-
 module.exports = {
-  sessionConfig: sessionConfig,
-  setupSession: setupSession
-}
+  sessionConfig: sessionConfig
+};
