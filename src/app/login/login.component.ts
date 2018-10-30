@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
         user => {
           console.log(user);
           console.log('url: ' + this.returnUrl);
-          this.router.navigate([this.returnUrl]);
+          window.location.href = this.returnUrl;
         },
         error => {
           console.log(JSON.stringify(error));

@@ -1,16 +1,6 @@
-<div *ngIf="isLoggedIn">
-  <button (click)="onClick()">Logout</button>
-  <h1>{{title}}</h1>
-  <nav>
-    <a routerLink="/dashboard">Dashboard</a>
-    <br>
-    <a routerLink="/heroes">Heroes</a>
-  </nav>
-</div>
+<app-common></app-common>
 
 <!-- template content -->
 <router-outlet></router-outlet>
 
-<div *ngIf="isLoggedIn">
-  <app-messages></app-messages>
-</div>
+<app-messages></app-messages>

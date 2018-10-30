@@ -9,31 +9,10 @@ import {AuthenticationService} from './authentication.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'Learning some Angular';
-  isLoggedIn = false;
 
-  constructor(
-    private router: Router,
-    private authenticationService: AuthenticationService) {
+  constructor() {
   }
 
   ngOnInit() {
-    this.authenticationService.isAuthenticated()
-      .subscribe(res => {
-        this.isLoggedIn = !!res;
-        this.authenticationService.setLoggedInState(this.isLoggedIn);
-      });
-  }
-
-  onClick() {
-    console.log('Log out attempted');
-    this.authenticationService.logout()
-      .pipe(first())
-      .subscribe(
-        res => {
-          this.authenticationService.setLoggedInState(false);
-          this.router.navigate(['/login']);
-        }
-      );
   }
 }
